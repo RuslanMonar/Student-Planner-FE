@@ -2,19 +2,23 @@
 import { Fragment } from 'react'
 import { Disclosure, Menu, Transition } from '@headlessui/react'
 import { BellIcon, MenuIcon, XIcon } from '@heroicons/react/outline'
+import { Link } from 'react-router-dom'
 
-const navigation = [
-    { name: 'Dashboard', href: '#', current: true },
-    { name: 'Team', href: '#', current: false },
-    { name: 'Projects', href: '#', current: false },
-    { name: 'Calendar', href: '#', current: false },
-]
 
-function classNames(...classes) {
-    return classes.filter(Boolean).join(' ')
-}
 
-export default function Header() {
+export const Header = () => {
+    const navigation = [
+        { name: 'Dashboard', href: '#', current: true },
+        { name: 'Team', href: '#', current: false },
+        { name: 'Projects', href: '#', current: false },
+        { name: 'Calendar', href: '#', current: false },
+    ]
+    
+    function classNames(...classes) {
+        return classes.filter(Boolean).join(' ')
+    }
+
+    
     return (
         <Disclosure as="nav" className="bg-gray-800">
             {({ open }) => (
@@ -59,12 +63,15 @@ export default function Header() {
                                     </div>
                                 </div>
                             </div>
-                            <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-
-                                <button type="button" class=" ml-3 focus:outline-none text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5  dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-900">
-                                    Sign In</button>
-                                <button type="button" class="ml-3 focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900">
-                                    Register</button>
+                            <div className=" hidden sm:block sm:ml-6 absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
+                                <Link to="/login">
+                                <button type="button" className=" ml-3 focus:outline-none text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5  dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-900">
+                                    Logn In</button>
+                                </Link>
+                                <Link to="/register">
+                                <button type="button" className="ml-3 focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900">
+                                        Register</button>
+                                </Link>
 
                             </div>
                         </div>
@@ -86,6 +93,17 @@ export default function Header() {
                                     {item.name}
                                 </Disclosure.Button>
                             ))}
+                            <div className="flex flex-col">
+                            <Link to="/login">
+                                <button type="button" className=" ml-3 mb-3 focus:outline-none text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5  dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-900">
+                                    Logn In</button>
+                                </Link>
+                                <Link to="/register">
+                                <button type="button" className="ml-3 mb-3 focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900">
+                                        Register</button>
+                                </Link>
+
+                            </div>
                         </div>
                     </Disclosure.Panel>
                 </>

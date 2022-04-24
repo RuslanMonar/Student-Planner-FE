@@ -1,4 +1,4 @@
-import Header from "../Components/Navigation/Header"
+import { Header } from "../Components/Navigation/Header"
 
 export const Main = () => {
     return (
