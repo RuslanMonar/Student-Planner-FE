@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 export const LoginForm = () => {
     const [formData, setFormData] = useState({ 
         user: {
-          username: "", 
+          email: "", 
           password: "" 
         },
       });
@@ -37,13 +37,13 @@ export const LoginForm = () => {
             </h1>
           </div>
           <form>
-            <label className="text-left">Username:</label>
+            <label className="text-left">Email:</label>
             <input
-              name="username"
-              type="text"
-              value={formData.user.username}
+              name="email"
+              type="email"
+              value={formData.user.email}
               onChange={handleChange}
-              placeholder="Username"
+              placeholder="Email"
               className={
                 "w-full p-2 text-primary border rounded-md outline-none text-sm transition duration-150 ease-in-out mb-4"
               }
