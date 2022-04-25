@@ -1,6 +1,8 @@
 import { RegisterForm } from "../../Components/Auth/RegisterForm";
 import { Header } from "../../Components/Navigation/Header";
+import { ToastProvider } from "react-toast-notifications";
 import { LoginForm } from "./../../Components/Auth/LoginForm";
+import { ErrorNotification } from "../../Components/Shared/ToastNotification";
 import "../../css/auth/auth.css"
 
 
@@ -20,7 +22,11 @@ export const AuthPage = () => {
     return (
         <div className="auth-background">
             <Header></Header>
-            {getComponent()}
+            <ToastProvider components={{ Toast: ErrorNotification }}>
+                {
+                    getComponent()
+                }
+            </ToastProvider>
         </div>
     );
 };

@@ -2,8 +2,8 @@ import AuthService from "../Gateway/AuthGateway";
 import { SaveUserAction } from "../ActionsCreator/AuthActions";
 import jwt_decode from "jwt-decode";
 
-const SignUp = (FirstName, LastName, Email, Password) => (dispatch) => {
-  return AuthService.SignUp(FirstName, LastName, Email, Password).then(
+const SignUp = (Username, Email, Password) => (dispatch) => {
+  return AuthService.SignUp(Username, Email, Password).then(
     (response) => {
       var user = GetUserInfoFromToken(response.data.token);
       dispatch(SaveUserAction({ user }));

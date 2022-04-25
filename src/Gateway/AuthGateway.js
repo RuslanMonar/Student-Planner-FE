@@ -1,7 +1,7 @@
 import { api } from './../Config/Axios';
 
-const SignUp = (firstName, lastName, email, password) => {
-    let data = { firstName, lastName, email, password };
+const SignUp = (username, email, password) => {
+    let data = { username, email, password };
     return api().post("Auth/register", data)
       .then((response) => {
         if (response.data.token) AddToStorage(response.data.token);     
