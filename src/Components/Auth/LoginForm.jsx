@@ -1,21 +1,36 @@
 import React, { useState } from "react";
 import { Link } from 'react-router-dom';
+import { useDispatch } from "react-redux";
+import AuthAction from "../../ActionsController/AuthActionController";
 
 export const LoginForm = () => {
-    const [formData, setFormData] = useState({ 
-        user: {
-          email: "", 
-          password: "" 
-        },
-      });
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const dispatch = useDispatch();
+
+    const onChangeEmail = (e) => {
+        const email = e.target.value;
+        setEmail(email);
+      };
     
-      const handleChange = (e) => {
-        setFormData({
-          user: {
-            ...formData.user,
-            [e.target.name]: e.target.value,
-          },
-        });
+      const onChangePassword = (e) => {
+        const password = e.target.value;
+        setPassword(password);
+    };
+    
+    const SignIn = (e) => {
+        e.preventDefault();
+          //setLoading(true);
+          dispatch(AuthAction.SignIn(email, password))
+            .then(() => {
+              setTimeout(() => {
+                //setLoading(false);
+                //setSuccessful(true);
+              }, 2000);
+            })
+            .catch((e) => {
+              //catchError(e);
+            });
       };
     
       return (
@@ -36,13 +51,13 @@ export const LoginForm = () => {
               Login to your account
             </h1>
           </div>
-          <form>
+          <form onSubmit={SignIn}>
             <label className="text-left">Email:</label>
             <input
               name="email"
               type="email"
-              value={formData.user.email}
-              onChange={handleChange}
+              value={email}
+              onChange={onChangeEmail}
               placeholder="Email"
               className={
                 "w-full p-2 text-primary border rounded-md outline-none text-sm transition duration-150 ease-in-out mb-4"
@@ -52,8 +67,8 @@ export const LoginForm = () => {
             <input
               name="password"
               type="password"
-              value={formData.user.password}
-              onChange={handleChange}
+              value={password}
+              onChange={onChangePassword}
               placeholder="Password"
               className={
                 "w-full p-2 text-primary border rounded-md outline-none text-sm transition duration-150 ease-in-out mb-4"
@@ -66,7 +81,7 @@ export const LoginForm = () => {
                 }
                 value="Login"
               >
-                Login
+                SignIn
               </button>
             </div>
           </form>
