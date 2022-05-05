@@ -10,7 +10,7 @@ var initialState = { isLoggedIn: false, user: null};
 
 if (user) {
   user = jwt_decode(user);
-  user = { name: user.username, id: user.id, email: user.email};
+  user = { name: user.name, id: user.id, email: user.email};
   
   initialState = { isLoggedIn: true, user };
 }

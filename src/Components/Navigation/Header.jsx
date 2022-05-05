@@ -1,17 +1,24 @@
 /* This example requires Tailwind CSS v2.0+ */
-import { Fragment } from 'react'
+import { Fragment, useEffect } from 'react'
 import { Disclosure, Menu, Transition } from '@headlessui/react'
 import { BellIcon, MenuIcon, XIcon } from '@heroicons/react/outline'
 import { Link } from 'react-router-dom'
-
-
+import { useState } from 'react';
+import { useSelector } from 'react-redux';
 
 export const Header = () => {
+
+    const [isLogged, setIsLogged] = useState("");
+    var user = useSelector(state => state.AuthReducer);
+
+    useEffect(() => {
+        user.isLoggedIn ? console.log(user): console.log("noooooo");
+
+      }, [])
+
     const navigation = [
-        { name: 'Dashboard', href: '#', current: true },
-        { name: 'Team', href: '#', current: false },
-        { name: 'Projects', href: '#', current: false },
-        { name: 'Calendar', href: '#', current: false },
+        { name: 'Dashboard', href: '/dashboard', current: false },
+        { name: 'Calendar', href: '/calendar', current: false },
     ]
     
     function classNames(...classes) {
@@ -43,14 +50,15 @@ export const Header = () => {
                                         src="https://tailwindui.com/img/logos/workflow-mark-indigo-500.svg"
                                         alt="Workflow"
                                     />
-                                    <h1 className="text-white text-lg ml-5">Student Planner</h1>
+                                     <Link to="/">
+                                        <h1 className="text-white text-lg ml-5">Student Planner</h1>
+                                    </Link>
                                 </div>
                                 <div className="hidden sm:block sm:ml-6">
                                     <div className="flex space-x-4">
                                         {navigation.map((item) => (
-                                            <a
-                                                key={item.name}
-                                                href={item.href}
+                                            <Link
+                                                to={item.href}
                                                 className={classNames(
                                                     item.current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
                                                     'px-3 py-2 rounded-md text-sm font-medium'
@@ -58,22 +66,23 @@ export const Header = () => {
                                                 aria-current={item.current ? 'page' : undefined}
                                             >
                                                 {item.name}
-                                            </a>
+                                            </Link>
                                         ))}
                                     </div>
                                 </div>
                             </div>
-                            <div className=" hidden sm:block sm:ml-6 absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-                                <Link to="/login">
-                                <button type="button" className=" ml-3 focus:outline-none text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5  dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-900">
-                                    Logn In</button>
-                                </Link>
-                                <Link to="/register">
-                                <button type="button" className="ml-3 focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">
-                                        Register</button>
-                                </Link>
-
-                            </div>
+                            {!isLogged ?
+                                <div className=" hidden sm:block sm:ml-6 absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
+                                    <Link to="/login">
+                                        <button type="button" className=" ml-3 focus:outline-none text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5  dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-900">
+                                            Logn In</button>
+                                    </Link>
+                                    <Link to="/register">
+                                        <button type="button" className="ml-3 focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">
+                                            Register</button>
+                                    </Link> 
+                                </div>
+                                : <div className='absolute text-white inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0'>{} </div>}
                         </div>
                     </div>
 
@@ -93,6 +102,7 @@ export const Header = () => {
                                     {item.name}
                                 </Disclosure.Button>
                             ))}
+
                             <div className="flex flex-col">
                             <Link to="/login">
                                 <button type="button" className=" ml-3 mb-3 focus:outline-none text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5  dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-900">

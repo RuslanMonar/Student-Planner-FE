@@ -31,7 +31,7 @@ const SignIn = (Email, Password) => (dispatch) => {
 // ----- Additional functions
 const GetUserInfoFromToken = (token) => {
     var user = jwt_decode(token);
-    user = { name: user.username, id: user.id, email: user.email };
+    user = { name: user.unique_name, id: user.nameid, email: user.email };
     return user;
   };
   
