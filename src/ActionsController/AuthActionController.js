@@ -1,5 +1,5 @@
 import AuthService from "../Gateway/AuthGateway";
-import { SaveUserAction } from "../ActionsCreator/AuthActions";
+import { LogOutAction, SaveUserAction } from "../ActionsCreator/AuthActions";
 import jwt_decode from "jwt-decode";
 
 const SignUp = (Username, Email, Password) => (dispatch) => {
@@ -28,6 +28,12 @@ const SignIn = (Email, Password) => (dispatch) => {
     );
 };
 
+const SignOut = () => (dispatch) => {
+      dispatch(LogOutAction({}));
+      localStorage.clear();
+}
+
+
 // ----- Additional functions
 const GetUserInfoFromToken = (token) => {
     var user = jwt_decode(token);
@@ -46,5 +52,6 @@ const GetUserInfoFromToken = (token) => {
   
 export default {
     SignUp,
-    SignIn
+  SignIn,
+  SignOut
   };

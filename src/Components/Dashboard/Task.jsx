@@ -6,24 +6,24 @@ import { BsCalendar3, BsFlagFill } from "react-icons/bs";
 import { IconContext } from "react-icons";
 
 
-export const Task = ({taskState}) => {
+export const Task = ({ taskState, task, setSelectedTask }) => {
     const [check, setCheck] = useState(false);
 
     return (
-        <div className="flex w-4/5 p-3 bg-white rounded-lg cursor-pointer mt-5 border-red-600 border-x-4">
+        <div className="flex w-4/5 p-3 bg-white rounded-lg cursor-pointer mt-5 border-x-4" style={{borderColor:task.color}}>
         <CheckBox
             checked={check}
             checkBoxStyle={{
                 checkedColor: "#34b93d",
                 size: 20,
                 //unCheckedColor: "#b8b8b8"
-                unCheckedColor: "red"
+                unCheckedColor: task.color
             }}
             duration={130}
             onClick={() => setCheck(!check)}
             />
-            <div className="ml-3 w-10/12 " onClick={() => taskState.changeCollapsed(!taskState.collapsed)}>
-                <span className={ check ? 'completed' : '' }>English lessong and homework </span>
+            <div className="ml-3 w-10/12 " onClick={() => { taskState.changeCollapsed(false); setSelectedTask(task)}}>
+                <span className={ check ? 'completed' : '' }>{task.title}</span>
             </div>
 
             <IconContext.Provider value={{ className: "shared-class", size: 22 }}>
