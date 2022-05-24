@@ -9,6 +9,10 @@ const AddProject = (title, color, groupId) => {
   var data = {title, color, groupId}
   return api().post('Projects/AddProject', data);
 }
+const AddTask = (data) => {
+  return api().post('Projects/AddTask', data);
+}
+
 
 const GetProjetcsByGroups = () => {
   return api().get('Projects/GetProjetcsByGroups');
@@ -18,8 +22,36 @@ const GetProjetcsWithoutGroup = () => {
   return api().get('Projects/GetProjetcsWithoutGroup');
 }
 
+const GetAllProjects = () => {
+  return api().get('Projects/GetAllProjects');
+}
+
 const GetGroups = () => {
   return api().get('Projects/GetGroups');
+}
+
+const GetAllTasks = () => {
+  return api().get('Projects/GetAllTasks');
+}
+
+const EditTask = (data) => {
+  return api().post('Projects/EditTask',data);
+}
+
+const GetTasksById = (id) => {
+  return api().get('Projects/GetTasksById/'+id);
+}
+
+const StartTask = (data) => {
+  return api().post('Projects/StartTask/', data);
+}
+
+const EndTask = (data) => {
+  return api().post('Projects/EndTask/', data);
+}
+
+const GetTasksStatic = () => {
+  return api().get('Projects/GetTasksStatic/');
 }
 
 export default {
@@ -27,5 +59,13 @@ export default {
   AddProject,
   GetProjetcsByGroups,
   GetGroups,
-  GetProjetcsWithoutGroup
+  GetProjetcsWithoutGroup,
+  GetAllProjects,
+  AddTask,
+  GetAllTasks,
+  EditTask,
+  GetTasksById,
+  StartTask,
+  EndTask,
+  GetTasksStatic,
   };

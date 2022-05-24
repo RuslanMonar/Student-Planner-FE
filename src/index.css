@@ -31,6 +31,12 @@ html, body {
     text-decoration-color: #34b93d;
     text-decoration-thickness: 2px;
 }
+.hlYdNH{
+    z-index: 1000000000 !important;
+}
+.KxNll{
+    z-index: 1000000000 !important;
+}
 
 @media screen and (min-width: 1400px) {
     .test::after {

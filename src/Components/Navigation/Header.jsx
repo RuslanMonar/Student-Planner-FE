@@ -7,6 +7,7 @@ import { Link } from 'react-router-dom'
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import AuthAction from "../../ActionsController/AuthActionController";
+import { GiConsoleController } from 'react-icons/gi';
 
 export const Header = () => {
     var user = useSelector(state => state.AuthReducer);
@@ -14,7 +15,6 @@ export const Header = () => {
 
     useEffect(() => {
         user.isLoggedIn ? setIsLogged(true) : setIsLogged(false);
-
     }, [])
 
     const dispatch = useDispatch();
@@ -22,6 +22,7 @@ export const Header = () => {
     const navigation = [
         { name: 'Dashboard', href: '/dashboard', current: false },
         { name: 'Calendar', href: '/calendar', current: false },
+        { name: 'Statistic', href: '/statistics', current: false },
     ]
 
     function classNames(...classes) {
@@ -94,7 +95,8 @@ export const Header = () => {
                                 </div>
                                 : <div>
                                     <Menu as="div" className="ml-3 relative">
-                                        <div>
+                                        <div className='flex text-white'>
+                                            <span className='mr-3'>{user.user.email.substring(0, user.user.email.lastIndexOf("@"))}</span>
                                             <Menu.Button className="bg-gray-800 flex text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white">
                                                 <span className="sr-only">Open user menu</span>
                                                 <img

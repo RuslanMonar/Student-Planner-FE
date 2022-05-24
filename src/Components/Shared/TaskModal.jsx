@@ -6,6 +6,7 @@ import { GiTomato } from "react-icons/gi";
 import { BiTime } from "react-icons/bi";
 import 'react-calendar/dist/Calendar.css';
 import { Calendar } from 'react-calendar';
+import ProjectGateway from "../../Gateway/ProjectGateway"
 
 export const TaskModal = ({ isOpen, setIsOpen }) => {
     const people = [
@@ -15,15 +16,9 @@ export const TaskModal = ({ isOpen, setIsOpen }) => {
         { id: "gray", name: <BsFlagFill style={{ color: "gray" }} /> },
     ]
 
-    const [projects, setProjects] = useState([
-        { id: 1, title: 'Durward Reynolds', unavailable: false },
-        { id: 2, title: 'Kenton Towne', unavailable: false },
-        { id: 3, title: 'Therese Wunsch', unavailable: false },
-        { id: 4, title: 'Benedict Kessler', unavailable: true },
-        { id: 5, title: 'Katelyn Rohan', unavailable: false },
-    ]);
+    const [projects, setProjects] = useState([]);
 
-    const [project, setProject] = useState(projects[0])
+    const [project, setProject] = useState([])
     const [taskDescription, setTaskDescription] = useState()
 
     const [TaskName, setTaskName] = useState('');
@@ -32,8 +27,12 @@ export const TaskModal = ({ isOpen, setIsOpen }) => {
     const [minutes, setMinutes] = useState(25);
     const [date, setDate] = useState(new Date());
 
-    useEffect(() => {
-
+    useEffect( () => {
+        
+        ProjectGateway.GetAllProjects().then(response => {
+            setProjects(response.data);
+            setProject(response.data[0]);
+        })
     }, []);
 
     const convertMinsToHrsMins = (mins) => {
@@ -42,6 +41,23 @@ export const TaskModal = ({ isOpen, setIsOpen }) => {
         h = h < 10 ? '0' + h : h; // (or alternatively) h = String(h).padStart(2, '0')
         m = m < 10 ? '0' + m : m; // (or alternatively) m = String(m).padStart(2, '0')
         return `${h}:${m}`;
+    }
+
+    const AddTask = () => {
+        var data = {
+            title: TaskName,
+            flag: selectedFlag.id,
+            TomatoCount: pomidors,
+            TomatoLength: minutes,
+            TotalTime: pomidors * minutes,
+            Date: date.toISOString(),
+            Description: taskDescription,
+            projectId: project.id
+        }
+
+        ProjectGateway.AddTask(data).then(response => {
+            window.location.reload()
+        })
     }
 
     return (
@@ -163,7 +179,7 @@ export const TaskModal = ({ isOpen, setIsOpen }) => {
 
                     <div className='flex mb-5 '>
                         <div className='ml-5'>
-                            <Calendar onChange={e => setDate(e.value)} value={date} />
+                            <Calendar onChange={value => setDate(value)} value={date} />
                         </div>
                         <div className='flex items-center w-96 flex-col'>
                             <div className='flex'>
@@ -186,7 +202,7 @@ export const TaskModal = ({ isOpen, setIsOpen }) => {
                                                 leaveFrom="opacity-100"
                                                 leaveTo="opacity-0"
                                             >
-                                                <Listbox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+                                                <Listbox.Options className="absolute mt-1 max-h-60 w-fit overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
                                                     {projects.map((project, personIdx) => (
                                                         <Listbox.Option
                                                             key={personIdx}
@@ -234,7 +250,7 @@ export const TaskModal = ({ isOpen, setIsOpen }) => {
 
                     <div class="flex items-center p-6 space-x-2 rounded-b border-t border-gray-200 dark:border-gray-600">
                         <button
-
+                            onClick={() => AddTask()}
                             data-modal-toggle="medium-modal" type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Add</button>
                         <button data-modal-toggle="medium-modal" type="button" class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">Decline</button>
                     </div>
