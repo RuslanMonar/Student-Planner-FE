@@ -5,6 +5,8 @@ import { MdOutlineAddTask } from 'react-icons/md';
 import { BsFillFolderFill } from "react-icons/bs";
 import { IoMdAddCircle } from "react-icons/io";
 import { BiAddToQueue } from "react-icons/bi";
+import { MdOutlineDownloadDone } from "react-icons/md";
+import { DiGhostSmall } from "react-icons/di";
 import { useState, useEffect, Fragment, useRef } from 'react';
 import { Task } from './../Components/Dashboard/Task';
 import { IconContext } from "react-icons";
@@ -32,6 +34,9 @@ export const Dashboard = () => {
     const [isOpenTaskModal, setIsOpenTaskModal] = useState(false);
     const [tasks, setTaks] = useState([]);
     const [selectedTask, setSelectedTask] = useState(tasks[0]);
+    const [isCompleedTask, setIsCompleedTask] = useState(false);
+    const [countTasks, setCountTasks] = useState(0);
+    const [timeSpent, setTimeSpent] = useState(0);
     const buttonStyle = " mr-4 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
 
     const people = [
@@ -67,7 +72,7 @@ export const Dashboard = () => {
             setProjectNoGroup(response.data);
         })
 
-        ProjectGateway.GetAllTasks().then(response => {
+        ProjectGateway.GetAllTasks({ CompletedTasks: false }).then(response => {
             setTaks(response.data);
         })
 
@@ -102,14 +107,32 @@ export const Dashboard = () => {
         })
     }
 
+    const getAllTasks = (val) => {
+        ProjectGateway.GetAllTasks({ CompletedTasks: val }).then(response => {
+            setIsCompleedTask(val);
+            setTaks(response.data);
+            
+        })
+    }
+
     return (
         <div className="h-full">
             <Header style={{ height: '10%' }}></Header>
 
-            <div style={{ height: '93%' }} className="h-full bg-red-100 overflow-y-scroll flex">
+            <div  style={{ height: '93%' }} className="h-full bg-red-100 overflow-y-scroll flex">
                 <ProSidebar className="bg-white w-1/6">
                     <SidebarContent>
                         <Menu iconShape="square">
+                            <MenuItem icon={<DiGhostSmall style={{ color: "#7000CE" }} />}>
+                                <div onClick={() => getAllTasks(false)} className="flex items-center">
+                                    Всі завдання
+                                </div>
+                            </MenuItem>
+                            <MenuItem icon={<MdOutlineDownloadDone style={{ color: "green" }} />}>
+                                <div onClick={() => getAllTasks(true)} className="flex items-center">
+                                    Виконані завдання
+                                </div>
+                            </MenuItem>
                             {projects.map((group, id) => (
 
                                 <SubMenu title={group.title} icon={<BsFillFolderFill style={{ color: group.color }} />}>
@@ -139,8 +162,8 @@ export const Dashboard = () => {
                         <div className="flex cursor-pointer ">
                             <IconContext.Provider value={{ className: "shared-class", size: 22 }}>
 
-                                <span onClick={() => { setIsProject(false); setIsOpen(true) }} className="flex justify-between ml-1"><IoMdAddCircle style={{ color: '#6366f1' }} /> Add Group</span>
-                                <span onClick={() => { setIsProject(true); setIsOpen(true) }} className="flex justify-between ml-4"> <BiAddToQueue style={{ color: '#6366f1' }} /> Add project </span>
+                                <span onClick={() => { setIsProject(false); setIsOpen(true) }} className="flex justify-between ml-1"><IoMdAddCircle style={{ color: '#6366f1' }} /> Добавити групу</span>
+                                <span onClick={() => { setIsProject(true); setIsOpen(true) }} className="flex justify-between ml-4"> <BiAddToQueue style={{ color: '#6366f1' }} /> Добавити проект </span>
                             </IconContext.Provider>
                         </div>
                     </SidebarFooter>
@@ -153,16 +176,23 @@ export const Dashboard = () => {
                     <div onClick={() => setIsOpenTaskModal(true)} className="flex justify-start items-center mt-5 mb-3 border-2 border-soli p-3 rounded-full cursor-pointer hover:bg-white" style={{ color: '#6366f1', borderColor: '#6366f1' }}>
                         <IconContext.Provider value={{ className: "shared-class", size: 45 }} >
                             <MdOutlineAddTask />
-                            <span className="ml-3 text-lg">Add new Task</span>
+                            <span className="ml-3 text-lg">Добавити нову задачу</span>
                         </IconContext.Provider>
 
                     </div>
 
                     {tasks.length ? (
-                        tasks.map(task => (
-                            <Task key={task.id} setSelectedTask={setSelectedTask} task={task} taskState={{ collapsed, changeCollapsed }} >
-                            </Task>
-                        ))
+                        tasks.map(task => {
+                            if (task.completed == isCompleedTask) {
+                                return (
+                                    <Task key={task.id} setSelectedTask={setSelectedTask} task={task} taskState={{ collapsed, changeCollapsed }} >
+                                    </Task>
+                                )
+                            }
+                            else {
+                                return null
+                            }
+                        })
 
                     ) : null}
 
@@ -226,6 +256,7 @@ export const Dashboard = () => {
                                         </Transition>
                                     </div>
                                 </Listbox>
+                                <span className='ml-2 cursor-pointer' onClick={() => changeCollapsed(true)}>✖</span>
                             </div>
 
                             <div className="flex flex-col mt-10  mb-5">
@@ -325,6 +356,16 @@ export const Dashboard = () => {
                                 </Listbox>
 
                                 <Calendar onChange={value => setSelectedTask({ ...selectedTask, date: value.toISOString() })} value={new Date(parseISOString(selectedTask?.date))} />
+                                <textarea
+                                    value={selectedTask?.description}
+                                    type="text"
+                                    placeholder='Write task description'
+                                    onChange={(e) => setSelectedTask({ ...selectedTask, description: e.target.value })}
+                                    style={{ minHeight: "200px" }}
+                                    className={
+                                        "mr-10 w-72 mt-3 p-2 border-emerald-500 text-primary border rounded-md outline-none text-sm transition duration-150 ease-in-out"
+                                    }
+                                />
                                 <button
                                     onClick={() => saveTask()}
                                     data-modal-toggle="medium-modal" type="button" class="mt-10 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Save</button>

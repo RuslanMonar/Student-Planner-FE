@@ -244,7 +244,7 @@ export const Statistics = () => {
                             id="pie"
                             type="doughnut"
                             resolveLabelOverlapping="shift"
-                            title="The Population of Continents and Regions"
+                            title="Статистика потраченого часу на проекти"
                             palette={pattle.length ? pattle : ["green"]}
                             dataSource={ProjectStat}
                             centerRender={CenterTemplate}

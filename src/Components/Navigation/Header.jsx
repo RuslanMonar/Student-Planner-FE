@@ -20,9 +20,9 @@ export const Header = () => {
     const dispatch = useDispatch();
 
     const navigation = [
-        { name: 'Dashboard', href: '/dashboard', current: false },
-        { name: 'Calendar', href: '/calendar', current: false },
-        { name: 'Statistic', href: '/statistics', current: false },
+        { name: 'Панель задач', href: '/dashboard', current: false },
+        { name: 'Калдендар', href: '/calendar', current: false },
+        { name: 'Статистика', href: '/statistics', current: false },
     ]
 
     function classNames(...classes) {
@@ -86,11 +86,11 @@ export const Header = () => {
                                 <div className=" hidden sm:block sm:ml-6 absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
                                     <Link to="/login">
                                         <button type="button" className=" ml-3 focus:outline-none text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5  dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-900">
-                                            Logn In</button>
+                                            Вхід</button>
                                     </Link>
                                     <Link to="/register">
                                         <button type="button" className="ml-3 focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">
-                                            Register</button>
+                                            Реєстрація</button>
                                     </Link>
                                 </div>
                                 : <div>
@@ -119,30 +119,10 @@ export const Header = () => {
                                                 <Menu.Item>
                                                     {({ active }) => (
                                                         <a
-                                                            href="#"
-                                                            className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
-                                                        >
-                                                            Your Profile
-                                                        </a>
-                                                    )}
-                                                </Menu.Item>
-                                                <Menu.Item>
-                                                    {({ active }) => (
-                                                        <a
-                                                            href="#"
-                                                            className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
-                                                        >
-                                                            Settings
-                                                        </a>
-                                                    )}
-                                                </Menu.Item>
-                                                <Menu.Item>
-                                                    {({ active }) => (
-                                                        <a
                                                             onClick={() => signOut()}
                                                             className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
                                                         >
-                                                            Sign out
+                                                            Вихід
                                                         </a>
                                                     )}
                                                 </Menu.Item>
@@ -173,11 +153,11 @@ export const Header = () => {
                             <div className="flex flex-col">
                                 <Link to="/login">
                                     <button type="button" className=" ml-3 mb-3 focus:outline-none text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5  dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-900">
-                                        Logn In</button>
+                                        Вхід</button>
                                 </Link>
                                 <Link to="/register">
                                     <button type="button" className="ml-3 mb-3 focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900">
-                                        Register</button>
+                                        Реєстрація</button>
                                 </Link>
 
                             </div>

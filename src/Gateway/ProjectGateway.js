@@ -30,8 +30,8 @@ const GetGroups = () => {
   return api().get('Projects/GetGroups');
 }
 
-const GetAllTasks = () => {
-  return api().get('Projects/GetAllTasks');
+const GetAllTasks = (data) => {
+  return api().post('Projects/GetAllTasks', data);
 }
 
 const EditTask = (data) => {
@@ -54,6 +54,14 @@ const GetTasksStatic = () => {
   return api().get('Projects/GetTasksStatic/');
 }
 
+const TaskCompleted = data => {
+  return api().post('Projects/TaskCompleted/', data);
+}
+
+const DeleteTask = data => {
+  return api().post('Projects/DeleteTask/', data);
+}
+
 export default {
   AddGroup,
   AddProject,
@@ -68,4 +76,6 @@ export default {
   StartTask,
   EndTask,
   GetTasksStatic,
+  TaskCompleted,
+  DeleteTask,
   };

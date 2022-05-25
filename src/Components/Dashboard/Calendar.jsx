@@ -35,7 +35,7 @@ export const Calendar = () => {
 
     useEffect(() => {
 
-        ProjectGateway.GetAllTasks().then(response => {
+        ProjectGateway.GetAllTasks({ CompletedTasks: false }).then(response => {
             setTaks(response.data);
         })
 
@@ -156,6 +156,7 @@ export const Calendar = () => {
                 <Scheduler
                     data={appointments}
                     height={"100%"}
+                    locale="uk-UA"
                 >
                     <ViewState />
                     <WeekView
@@ -164,16 +165,17 @@ export const Calendar = () => {
                         timeScaleLabelComponent={TimeScaleLabel}
                         timeTableCellComponent={TimeTableCell}
                         dayScaleCellComponent={DayScaleCell}
+                        name="Тиждень"
                     />
                     <DayView
                         startDayHour={1}
                         endDayHour={24}
                         dayScaleCellComponent={DayScaleCell}
+                        name="Сьогодні"
                     />
-                    <MonthView />
+                    <MonthView name="Місяць" />
                     <Toolbar />
                     <DateNavigator />
-                    <TodayButton />
                     <ViewSwitcher />
                     <Appointments />
                 </Scheduler>

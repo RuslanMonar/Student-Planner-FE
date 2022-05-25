@@ -13,7 +13,7 @@ import ProjectGateway from "../../Gateway/ProjectGateway";
 export const Task = ({ taskState, task, setSelectedTask }) => {
     const buttonStyle = " mr-4 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
 
-    const [check, setCheck] = useState(false);
+    const [check, setCheck] = useState(task?.completed);
     const [background, setBackground] = useState("#DAAD86");
     const [breakeMode, setsetBreakMode] = useState(false);
 
@@ -106,6 +106,24 @@ export const Task = ({ taskState, task, setSelectedTask }) => {
         },
         status === STATUS.STARTED ? 1000 : null,
     )
+
+    const TaskCompleted = () => {
+        var data = {
+            taskId: task.id,
+            taskIsCompleted : !task.completed
+        }
+        setCheck(!check);
+        setTimeout(ProjectGateway.TaskCompleted(data).then(r => {
+            window.location.reload();
+        }), 1000);
+    }
+
+    const deleteTask = () => {
+        var data = { TaskId: task.id }
+        ProjectGateway.DeleteTask(data).then(r => {
+            window.location.reload();
+        })
+    }
 
     return (
         <div className="flex w-4/5 p-3 bg-white rounded-lg cursor-pointer mt-5 border-x-4" style={{ borderColor: task.flag }}>
@@ -201,7 +219,7 @@ export const Task = ({ taskState, task, setSelectedTask }) => {
                     unCheckedColor: task.flag
                 }}
                 duration={130}
-                onClick={() => setCheck(!check)}
+                onClick={() => TaskCompleted()}
             />
             <div className="ml-3 " style={{ width: "70%" }} onClick={() => { taskState.changeCollapsed(false); setSelectedTask(task) }}>
                 <span className={check ? 'completed' : ''}>{task.title}</span>
@@ -219,7 +237,7 @@ export const Task = ({ taskState, task, setSelectedTask }) => {
                             <MdTimer style={{ color: '#6366f1' }} />
                         </div>
 
-                        <RiDeleteBin6Line className=" ml-5" style={{ color: 'red', width: "22px !important", height: "22px !important" }} />
+                        <RiDeleteBin6Line onClick={() => deleteTask()} className=" ml-5" style={{ color: 'red', width: "22px !important", height: "22px !important" }} />
                     </div>
 
 
